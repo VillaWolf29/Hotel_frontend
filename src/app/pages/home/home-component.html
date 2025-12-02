@@ -1,0 +1,147 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Hotel Cuenca</h1>
+      <p>Encuentra las mejores habitaciones en el corazón de Cuenca</p>
+      
+      <!-- Buscador -->
+      <div class="search-box">
+        <mat-form-field appearance="outline" class="search-field location-field">
+          <mat-label>Ubicación</mat-label>
+          <input matInput [(ngModel)]="searchLocation" placeholder="Solo, Cuenca">
+          <mat-icon matPrefix>location_on</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field date-field">
+          <mat-label>Fecha de entrada</mat-label>
+          <input matInput [matDatepicker]="pickerIn" [(ngModel)]="checkInDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerIn"></mat-datepicker-toggle>
+          <mat-datepicker #pickerIn></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field date-field">
+          <mat-label>Fecha de salida</mat-label>
+          <input matInput [matDatepicker]="pickerOut" [(ngModel)]="checkOutDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerOut"></mat-datepicker-toggle>
+          <mat-datepicker #pickerOut></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field people-field">
+          <mat-label>Personas</mat-label>
+          <mat-select [(ngModel)]="numPeople">
+            <mat-option [value]="1">1 persona</mat-option>
+            <mat-option [value]="2">2 personas</mat-option>
+            <mat-option [value]="3">3 personas</mat-option>
+            <mat-option [value]="4">4 personas</mat-option>
+            <mat-option [value]="5">5+ personas</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="search-button" (click)="searchRooms()">
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div class="main-content">
+    <!-- Filtros Laterales -->
+    <aside class="filters-sidebar">
+      <h3>Filtrar por:</h3>
+      
+      <!-- Tipo de habitación -->
+      <div class="filter-section">
+        <h4>Tipo de habitación</h4>
+        <div *ngFor="let type of roomTypes" class="filter-option">
+          <mat-checkbox (change)="onTypeChange(type, $event.checked)">
+            {{ type }}
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <!-- Rango de precio -->
+      <div class="filter-section">
+        <h4>Precio por noche</h4>
+        <mat-form-field appearance="outline" class="price-input">
+          <mat-label>Mínimo</mat-label>
+          <input matInput type="number" [(ngModel)]="minPrice" (change)="searchRooms()">
+          <span matPrefix>S/ </span>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="price-input">
+          <mat-label>Máximo</mat-label>
+          <input matInput type="number" [(ngModel)]="maxPrice" (change)="searchRooms()">
+          <span matPrefix>S/ </span>
+        </mat-form-field>
+      </div>
+    </aside>
+
+    <!-- Lista de Habitaciones -->
+    <div class="rooms-list">
+      <h2>{{ filteredRooms.length }} habitaciones disponibles</h2>
+      
+      <mat-card *ngFor="let room of filteredRooms" class="room-card">
+        <div class="room-card-content">
+          <div class="room-image">
+            <img [src]="'assets/images/room-' + room.type.toLowerCase() + '.jpg'" 
+                 [alt]="room.type"
+                 onerror="this.src='assets/images/default-room.jpg'">
+            <span class="room-badge">{{ room.state ? 'Disponible' : 'No disponible' }}</span>
+          </div>
+          
+          <div class="room-details">
+            <div class="room-header">
+              <h3>Habitación {{ room.type }}</h3>
+              <span class="room-number">N° {{ room.numRoom }}</span>
+            </div>
+            
+            <div class="room-info">
+              <div class="info-item">
+                <mat-icon>people</mat-icon>
+                <span>Capacidad: {{ room.ability }}</span>
+              </div>
+              <div class="info-item">
+                <mat-icon>hotel</mat-icon>
+                <span>Tipo: {{ room.type }}</span>
+              </div>
+            </div>
+
+            <div class="room-amenities">
+              <span class="amenity">
+                <mat-icon>wifi</mat-icon> WiFi
+              </span>
+              <span class="amenity">
+                <mat-icon>ac_unit</mat-icon> Aire acondicionado
+              </span>
+              <span class="amenity">
+                <mat-icon>tv</mat-icon> TV
+              </span>
+            </div>
+          </div>
+
+          <div class="room-booking">
+            <div class="price-section">
+              <span class="price-label">Precio por noche</span>
+              <span class="price">S/ {{ room.price | number:'1.2-2' }}</span>
+              <span class="tax-info">Incluye impuestos</span>
+            </div>
+            
+            <button mat-raised-button color="primary" 
+                    class="book-button"
+                    [disabled]="!room.state"
+                    (click)="openBookingDialog(room)">
+              Ver disponibilidad
+            </button>
+          </div>
+        </div>
+      </mat-card>
+
+      <div *ngIf="filteredRooms.length === 0" class="no-results">
+        <mat-icon>search_off</mat-icon>
+        <h3>No se encontraron habitaciones</h3>
+        <p>Intenta ajustar tus filtros de búsqueda</p>
+      </div>
+    </div>
+  </div>
+</div>

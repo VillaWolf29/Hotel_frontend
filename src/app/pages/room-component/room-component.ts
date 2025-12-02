@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-bookings',
+  selector: 'app-rooms',
   standalone: true,
   template: `
     <div class="page-container">
-      <h2>📅 Reservas</h2>
+      <h2>🛏️ Habitaciones</h2>
       <p>Falta continuar con el desarrollo para las interacciones</p>
     </div>
   `,
@@ -15,4 +15,4 @@ import { Component } from '@angular/core';
     }
   `]
 })
-export class BookingsComponent {}
+export class RoomsComponent {}

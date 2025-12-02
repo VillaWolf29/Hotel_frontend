@@ -3,5 +3,4 @@ export class ServiceHotel {
     nameService: string;
     price: number;
     description: string;
-
 }

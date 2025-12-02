@@ -6,5 +6,4 @@ export class Customer {
     phone: string;
     idCard: string;
     address: string;
-
 }

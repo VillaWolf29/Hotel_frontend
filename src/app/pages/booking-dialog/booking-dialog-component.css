@@ -1,0 +1,76 @@
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #003580;
+}
+
+mat-dialog-content {
+  min-width: 500px;
+  max-height: 70vh;
+}
+
+.room-summary {
+  background-color: #f0f7ff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.room-summary h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #003580;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-item.total {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 2px solid #003580;
+}
+
+.price-total {
+  color: #28a745;
+  font-size: 24px;
+}
+
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row mat-form-field {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  padding: 20px 24px;
+}
