@@ -1,25 +1,46 @@
-<header class="app-header">
-  <div class="header-content">
-    <h1>{{ title() }}</h1>
-  </div>
-</header>
+@if (isAuthenticated()) {
+  <header class="app-header">
+    <div class="header-content">
+      <h1>{{ title() }}</h1>
+      <div class="user-menu">
+        <span class="user-name">
+          <mat-icon>account_circle</mat-icon>
+          {{ getCurrentUsername() }}
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-trigger">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar Sesión</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </header>
 
-<nav class="app-nav">
-  <ul>
-    <li><a routerLink="/rooms" routerLinkActive="active">🛏️ Habitaciones</a></li>
-    <li><a routerLink="/bookings" routerLinkActive="active">📅 Reservas</a></li>
-    <li><a routerLink="/customers" routerLinkActive="active">👨‍💼 Clientes</a></li>
-    <li><a routerLink="/employees" routerLinkActive="active">👤 Empleados</a></li>
-    <li><a routerLink="/payments" routerLinkActive="active">💸 Pagos</a></li>
-    <li><a routerLink="/bills" routerLinkActive="active">💰 Facturas</a></li>
-    <li><a routerLink="/services" routerLinkActive="active">🛎️ Servicios</a></li>
-  </ul>
-</nav>
+  <nav class="app-nav">
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="active">🏠 Inicio</a></li>
+      <li><a routerLink="/rooms" routerLinkActive="active">🛏️ Habitaciones</a></li>
+      <li><a routerLink="/bookings" routerLinkActive="active">📅 Reservas</a></li>
+      <li><a routerLink="/customers" routerLinkActive="active">👨‍💼 Clientes</a></li>
+      <li><a routerLink="/employees" routerLinkActive="active">👤 Empleados</a></li>
+      <li><a routerLink="/payments" routerLinkActive="active">💸 Pagos</a></li>
+      <li><a routerLink="/bills" routerLinkActive="active">💰 Facturas</a></li>
+      <li><a routerLink="/services" routerLinkActive="active">🛎️ Servicios</a></li>
+    </ul>
+  </nav>
 
-<main class="app-main">
+  <main class="app-main">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; 2025 Hotel Cuenca. Todos los derechos reservados.</p>
+  </footer>
+} @else {
+  <!-- Si no está autenticado, solo mostrar router-outlet (que mostrará el login) -->
   <router-outlet></router-outlet>
-</main>
-
-<footer class="app-footer">
-  <p>&copy; 2025 Hotel Cuenca. Todos los derechos reservados.</p>
-</footer>
+}

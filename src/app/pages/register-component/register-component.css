@@ -1,0 +1,322 @@
+/* Contenedor principal */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.register-wrapper {
+  width: 100%;
+  max-width: 500px;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header del registro */
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.register-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.register-header p {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.9;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Tarjeta de registro */
+.register-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: scaleUp 0.5s ease-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Header de la tarjeta */
+::ng-deep .register-card .mat-mdc-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px !important;
+  color: white;
+}
+
+::ng-deep .register-card .mat-mdc-card-header .mat-mdc-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  color: white;
+  margin: 0 0 8px 0;
+}
+
+::ng-deep .register-card .mat-mdc-card-header .mat-mdc-card-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+}
+
+.header-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+/* Contenido de la tarjeta */
+::ng-deep .register-card .mat-mdc-card-content {
+  padding: 32px 24px;
+}
+
+/* Formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Fila de formulario */
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-field {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .register-card mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .register-card .mat-mdc-form-field .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(102, 126, 234, 0.04) !important;
+}
+
+::ng-deep .register-card .mat-mdc-form-field.mat-focused .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(102, 126, 234, 0.08) !important;
+}
+
+/* Icono del toggle de contraseña */
+.toggle-password {
+  cursor: pointer;
+  color: #667eea;
+}
+
+.toggle-password:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botón de registro */
+.register-button {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.register-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.register-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.register-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button-spinner {
+  display: inline-flex;
+}
+
+/* Enlace a login */
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.login-link p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.link-button {
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.link-button:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+/* Información adicional */
+.register-info {
+  text-align: center;
+  margin-top: 20px;
+  color: white;
+}
+
+.info-text {
+  font-size: 12px;
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Errores y validaciones */
+::ng-deep .register-card .mat-mdc-form-field.mat-form-field-invalid .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(244, 67, 54, 0.04) !important;
+}
+
+::ng-deep .register-card .mat-error {
+  font-size: 12px;
+}
+
+/* Snackbar personalizado */
+::ng-deep .error-snackbar {
+  background-color: #f44336 !important;
+}
+
+::ng-deep .error-snackbar .mat-mdc-snack-bar-label {
+  color: white !important;
+}
+
+::ng-deep .success-snackbar {
+  background-color: #4caf50 !important;
+}
+
+::ng-deep .success-snackbar .mat-mdc-snack-bar-label {
+  color: white !important;
+}
+
+/* Scrollbar personalizado */
+.register-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.register-card::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.register-card::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 3px;
+}
+
+.register-card::-webkit-scrollbar-thumb:hover {
+  background: #764ba2;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .register-container {
+    padding: 10px;
+  }
+
+  .register-header h1 {
+    font-size: 28px;
+  }
+
+  .register-header p {
+    font-size: 12px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-field {
+    width: 100%;
+  }
+
+  ::ng-deep .register-card .mat-mdc-card-content {
+    padding: 24px 16px;
+  }
+
+  ::ng-deep .register-card .mat-mdc-card-header {
+    padding: 20px 16px !important;
+  }
+
+  .register-button {
+    height: 44px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .register-wrapper {
+    max-width: 100%;
+  }
+
+  .register-header h1 {
+    font-size: 24px;
+  }
+
+  ::ng-deep .register-card .mat-mdc-card-header .mat-mdc-card-title {
+    font-size: 18px;
+  }
+
+  .login-link p {
+    font-size: 12px;
+  }
+}

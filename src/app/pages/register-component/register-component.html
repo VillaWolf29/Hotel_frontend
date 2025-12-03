@@ -1,0 +1,154 @@
+<div class="register-container">
+  <div class="register-wrapper">
+    <!-- Logo/Header -->
+    <div class="register-header">
+      <h1>🏨 Hotel Cuenca</h1>
+      <p>Gestión Administrativa</p>
+    </div>
+
+    <!-- Tarjeta de Registro -->
+    <mat-card class="register-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="header-icon">person_add</mat-icon>
+          Registro de Cliente
+        </mat-card-title>
+        <mat-card-subtitle>Completa tus datos para crear una cuenta de cliente</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <!-- Fila: Nombre y Apellido -->
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Nombre</mat-label>
+              <input 
+                matInput 
+                type="text"
+                formControlName="firstName"
+                placeholder="Tu nombre"
+                [disabled]="isLoading">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="hasError('firstName', 'required')">
+                {{ getErrorMessage('firstName') }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Apellido</mat-label>
+              <input 
+                matInput 
+                type="text"
+                formControlName="lastName"
+                placeholder="Tu apellido"
+                [disabled]="isLoading">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="hasError('lastName', 'required')">
+                {{ getErrorMessage('lastName') }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Email -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input 
+              matInput 
+              type="email"
+              formControlName="email"
+              placeholder="tu.email@ejemplo.com"
+              [disabled]="isLoading">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-error *ngIf="hasError('email', 'required')">
+              {{ getErrorMessage('email') }}
+            </mat-error>
+            <mat-error *ngIf="hasError('email', 'email')">
+              {{ getErrorMessage('email') }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Teléfono y Cédula -->
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Teléfono</mat-label>
+              <input 
+                matInput 
+                type="text"
+                formControlName="phone"
+                placeholder="123456789"
+                [disabled]="isLoading"
+                maxlength="9">
+              <mat-icon matPrefix>phone</mat-icon>
+              <mat-error *ngIf="hasError('phone', 'required')">
+                {{ getErrorMessage('phone') }}
+              </mat-error>
+              <mat-error *ngIf="hasError('phone', 'pattern')">
+                Debe ser exactamente 9 dígitos
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Cédula de Identidad</mat-label>
+              <input 
+                matInput 
+                type="text"
+                formControlName="idCard"
+                placeholder="12345678"
+                [disabled]="isLoading"
+                maxlength="8">
+              <mat-icon matPrefix>badge</mat-icon>
+              <mat-error *ngIf="hasError('idCard', 'required')">
+                {{ getErrorMessage('idCard') }}
+              </mat-error>
+              <mat-error *ngIf="hasError('idCard', 'pattern')">
+                Debe ser exactamente 8 dígitos
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Dirección -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Dirección (Opcional)</mat-label>
+            <textarea 
+              matInput 
+              formControlName="address"
+              placeholder="Tu dirección completa"
+              [disabled]="isLoading"
+              rows="2"
+              maxlength="100"></textarea>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <mat-hint align="end">{{ registerForm.get('address')?.value?.length || 0 }}/100</mat-hint>
+          </mat-form-field>
+
+          <!-- Botón de Registro -->
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            class="register-button"
+            [disabled]="!registerForm.valid || isLoading">
+            <mat-icon *ngIf="!isLoading">person_add</mat-icon>
+            <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+            {{ isLoading ? 'Registrando...' : 'Registrar Cliente' }}
+          </button>
+
+          <!-- Enlace a Login -->
+          <div class="login-link">
+            <p>¿Ya tienes credenciales de acceso? 
+              <a (click)="goToLogin()" class="link-button">
+                Inicia Sesión
+              </a>
+            </p>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Información adicional -->
+    <div class="register-info">
+      <p class="info-text">
+        © 2025 Hotel Cuenca. Todos los derechos reservados.
+      </p>
+    </div>
+  </div>
+</div>
