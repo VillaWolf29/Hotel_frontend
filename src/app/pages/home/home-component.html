@@ -56,7 +56,7 @@
         <h4>Tipo de habitación</h4>
         <div *ngFor="let type of roomTypes" class="filter-option">
           <mat-checkbox (change)="onTypeChange(type, $event.checked)">
-            {{ type }}
+            {{ type | titlecase }}
           </mat-checkbox>
         </div>
       </div>

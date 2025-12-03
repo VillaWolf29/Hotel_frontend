@@ -1,0 +1,36 @@
+.container {
+  padding: 20px;
+}
+
+.mat-elevation-z8 {
+  margin-top: 20px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.header-actions mat-form-field {
+  width: 300px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.mat-column-idPay {
+  width: 80px;
+}
+
+.mat-column-amount {
+  width: 120px;
+}

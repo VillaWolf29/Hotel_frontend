@@ -13,7 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { Room } from '../../model/room';
 import { RoomService } from '../../services/room-service';
-import { BookingDialogComponent } from '../booking-dialog/booking-dialog-component';
+import { BookingEditComponent } from '../booking-component/booking-edit-component/booking-edit-component';
 
 @Component({
   selector: 'app-home',
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
   selectedTypes: string[] = [];
   minPrice: number = 0;
   maxPrice: number = 500;
-  roomTypes: string[] = ['Individual', 'Doble', 'Suite', 'Matrimonial'];
+  roomTypes: string[] = ['individual', 'doble', 'suite', 'matrimonial'];
   
   constructor(
     private roomService: RoomService,
@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
 
   searchRooms(): void {
     this.filteredRooms = this.rooms.filter(room => {
-      const matchesType = this.selectedTypes.length === 0 || this.selectedTypes.includes(room.type);
+      const matchesType = this.selectedTypes.length === 0 || this.selectedTypes.includes(room.type?.toLowerCase());
       const matchesPrice = room.price >= this.minPrice && room.price <= this.maxPrice;
       const matchesAvailability = room.state === true;
       return matchesType && matchesPrice && matchesAvailability;
@@ -80,10 +80,11 @@ export class HomeComponent implements OnInit {
   }
 
   onTypeChange(type: string, checked: boolean): void {
+    const typeLower = type.toLowerCase();
     if (checked) {
-      this.selectedTypes.push(type);
+      this.selectedTypes.push(typeLower);
     } else {
-      const index = this.selectedTypes.indexOf(type);
+      const index = this.selectedTypes.indexOf(typeLower);
       if (index > -1) {
         this.selectedTypes.splice(index, 1);
       }
@@ -92,20 +93,23 @@ export class HomeComponent implements OnInit {
   }
 
   openBookingDialog(room: Room): void {
-    const dialogRef = this.dialog.open(BookingDialogComponent, {
-      width: '600px',
+    const dialogRef = this.dialog.open(BookingEditComponent, {
+      width: '700px',
       data: { 
-        room, 
-        checkInDate: this.checkInDate, 
-        checkOutDate: this.checkOutDate,
-        numPeople: this.numPeople
-      }
+        dateBooking: new Date(),
+        dateCheckIn: this.checkInDate || new Date(), 
+        dateCheckOut: this.checkOutDate || new Date(),
+        state: 'reservado',
+        room: room,
+        customer: null,
+        employee: null
+      },
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Booking confirmed:', result);
-        // Aquí puedes llamar al servicio de booking
+        console.log('Reserva confirmada:', result);
       }
     });
   }

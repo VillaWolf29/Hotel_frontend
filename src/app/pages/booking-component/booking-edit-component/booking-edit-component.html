@@ -1,0 +1,94 @@
+<h1 mat-dialog-title>{{ data ? 'Editar Reserva' : 'Nueva Reserva' }}</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Fecha de Reserva</mat-label>
+        <input matInput [matDatepicker]="pickerBooking" formControlName="dateBooking" required>
+        <mat-datepicker-toggle matSuffix [for]="pickerBooking"></mat-datepicker-toggle>
+        <mat-datepicker #pickerBooking></mat-datepicker>
+        <mat-error *ngIf="form.get('dateBooking')?.hasError('required')">
+          La fecha de reserva es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="state" required>
+          <mat-option *ngFor="let state of states" [value]="state">
+            {{ state | titlecase }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('state')?.hasError('required')">
+          El estado es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Fecha Check-In</mat-label>
+        <input matInput [matDatepicker]="pickerCheckIn" formControlName="dateCheckIn" required>
+        <mat-datepicker-toggle matSuffix [for]="pickerCheckIn"></mat-datepicker-toggle>
+        <mat-datepicker #pickerCheckIn></mat-datepicker>
+        <mat-error *ngIf="form.get('dateCheckIn')?.hasError('required')">
+          La fecha de entrada es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="half-width">
+        <mat-label>Fecha Check-Out</mat-label>
+        <input matInput [matDatepicker]="pickerCheckOut" formControlName="dateCheckOut" required>
+        <mat-datepicker-toggle matSuffix [for]="pickerCheckOut"></mat-datepicker-toggle>
+        <mat-datepicker #pickerCheckOut></mat-datepicker>
+        <mat-error *ngIf="form.get('dateCheckOut')?.hasError('required')">
+          La fecha de salida es requerida
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="customer" [compareWith]="compareCustomers" required>
+        <mat-option *ngFor="let customer of customers" [value]="customer">
+          {{ customer.firstName }} {{ customer.lastName }} - {{ customer.idCard }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('customer')?.hasError('required')">
+        El cliente es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Habitación</mat-label>
+      <mat-select formControlName="room" [compareWith]="compareRooms" required>
+        <mat-option *ngFor="let room of rooms" [value]="room">
+          {{ room.numRoom }} - {{ room.type | titlecase }} - S/ {{ room.price | number: '1.2-2' }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('room')?.hasError('required')">
+        La habitación es requerida
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Empleado</mat-label>
+      <mat-select formControlName="employee" [compareWith]="compareEmployees" required>
+        <mat-option *ngFor="let employee of employees" [value]="employee">
+          {{ employee.firstName }} {{ employee.lastName }} - {{ employee.post }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('employee')?.hasError('required')">
+        El empleado es requerido
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="operate()" [disabled]="form.invalid">
+    {{ data ? 'Actualizar' : 'Guardar' }}
+  </button>
+</div>

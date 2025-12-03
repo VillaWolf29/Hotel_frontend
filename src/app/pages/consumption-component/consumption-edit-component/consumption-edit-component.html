@@ -1,0 +1,63 @@
+<h1 mat-dialog-title>{{ data ? 'Editar Consumo' : 'Nuevo Consumo' }}</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha de Consumo</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dateConsumption" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="form.get('dateConsumption')?.hasError('required')">
+        La fecha de consumo es requerida
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Reserva</mat-label>
+      <mat-select formControlName="booking" [compareWith]="compareBookings" required>
+        <mat-option *ngFor="let booking of bookings" [value]="booking">
+          Reserva #{{ booking.idBooking }} - {{ booking.customer?.firstName }} {{ booking.customer?.lastName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('booking')?.hasError('required')">
+        La reserva es requerida
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Servicio</mat-label>
+      <mat-select formControlName="serviceHotel" [compareWith]="compareServices" required>
+        <mat-option *ngFor="let service of services" [value]="service">
+          {{ service.nameService | titlecase }} - S/ {{ service.price | number: '1.2-2' }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('serviceHotel')?.hasError('required')">
+        El servicio es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" formControlName="amount" required min="1">
+      <mat-error *ngIf="form.get('amount')?.hasError('required')">
+        La cantidad es requerida
+      </mat-error>
+      <mat-error *ngIf="form.get('amount')?.hasError('min')">
+        La cantidad debe ser mayor o igual a 1
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Subtotal</mat-label>
+      <input matInput type="number" formControlName="subtotal" readonly>
+      <span matPrefix>S/&nbsp;</span>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="operate()" [disabled]="form.invalid">
+    {{ data ? 'Actualizar' : 'Guardar' }}
+  </button>
+</div>

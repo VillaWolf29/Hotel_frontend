@@ -1,0 +1,82 @@
+<div class="container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>🍽️ Gestión de Consumos</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="mat-elevation-z8">
+    <div class="header-actions">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar consumo...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+        Nuevo Consumo
+      </button>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="idConsumption">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let consumption">{{ consumption.idConsumption }}</td>
+      </ng-container>
+
+      <!-- Date Consumption Column -->
+      <ng-container matColumnDef="dateConsumption">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+        <td mat-cell *matCellDef="let consumption">{{ consumption.dateConsumption | date: 'dd/MM/yyyy HH:mm' }}</td>
+      </ng-container>
+
+      <!-- Service Hotel Column -->
+      <ng-container matColumnDef="serviceHotel">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</th>
+        <td mat-cell *matCellDef="let consumption">
+          <mat-chip>{{ consumption.serviceHotel?.nameService }}</mat-chip>
+        </td>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+        <td mat-cell *matCellDef="let consumption">{{ consumption.amount }}</td>
+      </ng-container>
+
+      <!-- Subtotal Column -->
+      <ng-container matColumnDef="subtotal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</th>
+        <td mat-cell *matCellDef="let consumption">S/ {{ consumption.subtotal | number: '1.2-2' }}</td>
+      </ng-container>
+
+      <!-- Booking Column -->
+      <ng-container matColumnDef="booking">
+        <th mat-header-cell *matHeaderCellDef>Reserva</th>
+        <td mat-cell *matCellDef="let consumption">
+          <span *ngIf="consumption.booking">Reserva #{{ consumption.booking.idBooking }}</span>
+          <span *ngIf="!consumption.booking">-</span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let consumption">
+          <button mat-icon-button color="primary" (click)="openDialog(consumption)" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="delete(consumption)" matTooltip="Eliminar">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>📅 Gestión de Reservas</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="mat-elevation-z8">
+    <div class="header-actions">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar reserva...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+        Nueva Reserva
+      </button>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="idBooking">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.idBooking }}</td>
+      </ng-container>
+
+      <!-- Date Booking Column -->
+      <ng-container matColumnDef="dateBooking">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Reserva</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.dateBooking | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <!-- Customer Column -->
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+        <td mat-cell *matCellDef="let booking">
+          <span *ngIf="booking.customer">{{ booking.customer.firstName }} {{ booking.customer.lastName }}</span>
+          <span *ngIf="!booking.customer">-</span>
+        </td>
+      </ng-container>
+
+      <!-- Room Column -->
+      <ng-container matColumnDef="room">
+        <th mat-header-cell *matHeaderCellDef>Habitación</th>
+        <td mat-cell *matCellDef="let booking">
+          <span *ngIf="booking.room">{{ booking.room.numRoom }} - {{ booking.room.type }}</span>
+          <span *ngIf="!booking.room">-</span>
+        </td>
+      </ng-container>
+
+      <!-- Check In Column -->
+      <ng-container matColumnDef="dateCheckIn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Check-In</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.dateCheckIn | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <!-- Check Out Column -->
+      <ng-container matColumnDef="dateCheckOut">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Check-Out</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.dateCheckOut | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell *matCellDef="let booking">
+          <mat-chip [class.reservado]="booking.state === 'reservado'" 
+                    [class.cancelado]="booking.state === 'cancelado'"
+                    [class.checkin]="booking.state === 'checkin'"
+                    [class.checkout]="booking.state === 'checkout'">
+            {{ booking.state }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <!-- Employee Column -->
+      <ng-container matColumnDef="employee">
+        <th mat-header-cell *matHeaderCellDef>Empleado</th>
+        <td mat-cell *matCellDef="let booking">
+          <span *ngIf="booking.employee">{{ booking.employee.firstName }} {{ booking.employee.lastName }}</span>
+          <span *ngIf="!booking.employee">-</span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let booking">
+          <button mat-icon-button color="primary" (click)="openDialog(booking)" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="delete(booking)" matTooltip="Eliminar">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

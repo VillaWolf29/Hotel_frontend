@@ -1,0 +1,52 @@
+.container {
+  padding: 20px;
+}
+
+.mat-elevation-z8 {
+  margin-top: 20px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.header-actions mat-form-field {
+  width: 300px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.mat-column-idBooking {
+  width: 80px;
+}
+
+mat-chip.reservado {
+  background-color: #ff9800 !important;
+  color: white;
+}
+
+mat-chip.cancelado {
+  background-color: #f44336 !important;
+  color: white;
+}
+
+mat-chip.checkin {
+  background-color: #4caf50 !important;
+  color: white;
+}
+
+mat-chip.checkout {
+  background-color: #2196f3 !important;
+  color: white;
+}
