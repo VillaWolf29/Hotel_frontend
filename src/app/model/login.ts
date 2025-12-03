@@ -4,14 +4,12 @@ export interface JwtRequest {
   password: string;
 }
 
- //Interfaz para la respuesta del login
- 
+// Interfaz para la respuesta del login
 export interface JwtResponse {
   access_token: string;
 }
 
 // Interfaz para el usuario autenticado
-
 export interface AuthUser {
   username: string;
   roles?: string[];
@@ -19,16 +17,17 @@ export interface AuthUser {
 }
 
 /**
- * Interfaz para el registro de nuevos clientes
- * Corresponde a CustomerDTO en el backend - POST /customers
+ * Interfaz para el registro de nuevos usuarios/clientes
+ * Incluye todos los campos necesarios para crear una cuenta completa
  */
 export interface CustomerRequest {
   firstName: string;        // 3-70 caracteres, obligatorio
   lastName: string;         // 3-70 caracteres, obligatorio
-  email: string;            // Email válido, obligatorio
+  username: string;         // Nombre de usuario, obligatorio (mínimo 4 caracteres)
   phone: string;            // Exactamente 9 dígitos, obligatorio
   idCard: string;           // Exactamente 8 dígitos, obligatorio
   address?: string;         // Máx 100 caracteres, opcional
+  password: string;         // Contraseña para la cuenta, obligatorio (mínimo 6 caracteres)
 }
 
 /**
@@ -38,7 +37,7 @@ export interface CustomerResponse {
   id?: number;
   firstName: string;
   lastName: string;
-  email: string;
+  username: string;
   phone: string;
   idCard: string;
   address?: string;

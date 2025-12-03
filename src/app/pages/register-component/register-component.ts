@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,6 +38,8 @@ export class RegisterComponent implements OnInit {
 
   registerForm!: FormGroup;
   isLoading = false;
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   ngOnInit(): void {
     this.initForm();
@@ -56,18 +58,47 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(4)]],
       phone: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
       idCard: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
       address: ['', [Validators.maxLength(100)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { 
+      validators: this.passwordMatchValidator 
     });
   }
 
   /**
    * Validador personalizado para verificar que las contraseñas coincidan
    */
-  private passwordMatchValidator(group: FormGroup): { [key: string]: boolean } | null {
-    return null; // Ya no necesario con nuevo flujo
+  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (!password || !confirmPassword) {
+      return null;
+    }
+
+    if (confirmPassword.value === '') {
+      return null;
+    }
+
+    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+  }
+
+  /**
+   * Alterna la visibilidad de la contraseña
+   */
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  /**
+   * Alterna la visibilidad de confirmar contraseña
+   */
+  toggleConfirmPasswordVisibility(): void {
+    this.hideConfirmPassword = !this.hideConfirmPassword;
   }
 
   /**
@@ -76,6 +107,18 @@ export class RegisterComponent implements OnInit {
   hasError(fieldName: string, errorType: string): boolean {
     const field = this.registerForm.get(fieldName);
     return !!(field && field.hasError(errorType) && (field.dirty || field.touched));
+  }
+
+  /**
+   * Verifica si las contraseñas no coinciden
+   */
+  hasPasswordMismatch(): boolean {
+    const confirmPassword = this.registerForm.get('confirmPassword');
+    return !!(
+      this.registerForm.hasError('passwordMismatch') && 
+      confirmPassword?.dirty && 
+      confirmPassword?.touched
+    );
   }
 
   /**
@@ -88,13 +131,22 @@ export class RegisterComponent implements OnInit {
       return `${this.getFieldLabel(fieldName)} es requerido`;
     }
     
-    if (field?.hasError('email')) {
-      return 'Email inválido';
+    if (fieldName === 'username' && field?.hasError('minlength')) {
+      const minLength = field.getError('minlength').requiredLength;
+      return `Mínimo ${minLength} caracteres para el nombre de usuario`;
     }
-    
     if (field?.hasError('minlength')) {
       const minLength = field.getError('minlength').requiredLength;
       return `Mínimo ${minLength} caracteres`;
+    }
+    
+    if (field?.hasError('pattern')) {
+      if (fieldName === 'phone') {
+        return 'Debe ser exactamente 9 dígitos';
+      }
+      if (fieldName === 'idCard') {
+        return 'Debe ser exactamente 8 dígitos';
+      }
     }
     
     return '';
@@ -107,10 +159,12 @@ export class RegisterComponent implements OnInit {
     const labels: { [key: string]: string } = {
       'firstName': 'Nombre',
       'lastName': 'Apellido',
-      'email': 'Email',
+      'username': 'Nombre de Usuario',
       'phone': 'Teléfono',
       'idCard': 'Cédula de Identidad',
-      'address': 'Dirección'
+      'address': 'Dirección',
+      'password': 'Contraseña',
+      'confirmPassword': 'Confirmar Contraseña'
     };
     return labels[fieldName] || fieldName;
   }
@@ -135,16 +189,17 @@ export class RegisterComponent implements OnInit {
     const customerRequest: CustomerRequest = {
       firstName: formValue.firstName,
       lastName: formValue.lastName,
-      email: formValue.email,
+      username: formValue.username,
       phone: formValue.phone,
       idCard: formValue.idCard,
-      address: formValue.address || ''
+      address: formValue.address || '',
+      password: formValue.password
     };
 
     this.authService.register(customerRequest).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.snackBar.open('✅ ¡Cliente registrado exitosamente! El administrador debe crear tus credenciales de acceso.', 'Cerrar', {
+        this.snackBar.open('✅ ¡Registro exitoso! Ya puedes iniciar sesión con tus credenciales.', 'Cerrar', {
           duration: 5000,
           horizontalPosition: 'end',
           verticalPosition: 'top',
@@ -161,10 +216,10 @@ export class RegisterComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-        let errorMessage = 'Error al registrar cliente';
+        let errorMessage = 'Error al registrar usuario';
         
         if (error.status === 400) {
-          errorMessage = error.error?.message || 'Datos inválidos. Verifica teléfono (9 dígitos) y cédula (8 dígitos)';
+          errorMessage = error.error?.message || 'Datos inválidos. Verifica todos los campos';
         } else if (error.status === 0) {
           errorMessage = 'Error de conexión con el servidor';
         } else if (error.error?.message) {
