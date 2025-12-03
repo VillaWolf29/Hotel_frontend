@@ -83,12 +83,6 @@
       
       <mat-card *ngFor="let room of filteredRooms" class="room-card">
         <div class="room-card-content">
-          <div class="room-image">
-            <img [src]="'assets/images/room-' + room.type.toLowerCase() + '.jpg'" 
-                 [alt]="room.type"
-                 onerror="this.src='assets/images/default-room.jpg'">
-            <span class="room-badge">{{ room.state ? 'Disponible' : 'No disponible' }}</span>
-          </div>
           
           <div class="room-details">
             <div class="room-header">

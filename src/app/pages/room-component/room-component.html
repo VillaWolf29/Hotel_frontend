@@ -1,0 +1,100 @@
+<div class="room-container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <h2>🛏️ Gestión de Habitaciones</h2>
+      <span class="spacer"></span>
+      <button mat-raised-button color="accent" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+        Nueva Habitación
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="table-container">
+    <mat-form-field>
+      <mat-label>Buscar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por número, tipo, capacidad..." #input>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+        
+        <!-- ID Column -->
+        <ng-container matColumnDef="idRoom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let room"> {{room.idRoom}} </td>
+        </ng-container>
+
+        <!-- Room Number Column -->
+        <ng-container matColumnDef="numRoom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> N° Habitación </th>
+          <td mat-cell *matCellDef="let room"> 
+            <strong>{{room.numRoom}}</strong>
+          </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+          <td mat-cell *matCellDef="let room"> {{room.type}} </td>
+        </ng-container>
+
+        <!-- Ability Column -->
+        <ng-container matColumnDef="ability">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacidad </th>
+          <td mat-cell *matCellDef="let room"> 
+            <mat-icon class="person-icon">people</mat-icon>
+            {{room.ability}}
+          </td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+          <td mat-cell *matCellDef="let room"> 
+            <strong class="price">S/ {{room.price | number:'1.2-2'}}</strong>
+          </td>
+        </ng-container>
+
+        <!-- State Column -->
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+          <td mat-cell *matCellDef="let room">
+            <mat-chip [class.available]="room.state" [class.occupied]="!room.state">
+              {{ room.state ? 'Disponible' : 'Ocupada' }}
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let room">
+            <button mat-icon-button color="primary" (click)="openDialog(room)" matTooltip="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="delete(room)" matTooltip="Eliminar">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="7">No se encontraron resultados para "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator 
+        [pageSizeOptions]="[5, 10, 25, 100]" 
+        [pageSize]="10"
+        showFirstLastButtons
+        aria-label="Seleccionar página de habitaciones">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>
+  <mat-icon>{{ isEdit ? 'edit' : 'meeting_room' }}</mat-icon>
+  {{ isEdit ? 'Editar Habitación' : 'Nueva Habitación' }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>N° Habitación</mat-label>
+        <input matInput formControlName="numRoom" type="number" placeholder="101">
+        <mat-icon matPrefix>door_front</mat-icon>
+        <mat-error *ngIf="form.get('numRoom')?.invalid">
+          {{ getErrorMessage('numRoom') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo de Habitación</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="individual">Individual</mat-option>
+          <mat-option value="doble">Doble</mat-option>
+          <mat-option value="suite">Suite</mat-option>
+          <mat-option value="matrimonial">Matrimonial</mat-option>
+          <mat-option value="triple">Triple</mat-option>
+          <mat-option value="familiar">Familiar</mat-option>
+        </mat-select>
+        <mat-icon matPrefix>king_bed</mat-icon>
+        <mat-error *ngIf="form.get('type')?.invalid">
+          {{ getErrorMessage('type') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Capacidad</mat-label>
+        <mat-select formControlName="ability">
+          <mat-option *ngFor="let capacity of capacities" [value]="capacity">
+            {{capacity}} {{ capacity === 1 ? 'persona' : 'personas' }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matPrefix>people</mat-icon>
+        <mat-error *ngIf="form.get('ability')?.invalid">
+          {{ getErrorMessage('ability') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Precio por Noche</mat-label>
+        <input matInput formControlName="price" type="number" placeholder="150.00">
+        <span matPrefix>S/&nbsp;</span>
+        <mat-error *ngIf="form.get('price')?.invalid">
+          {{ getErrorMessage('price') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="state-toggle">
+      <mat-slide-toggle formControlName="state" color="primary">
+        <span class="toggle-label">
+          <mat-icon>{{ form.get('state')?.value ? 'check_circle' : 'cancel' }}</mat-icon>
+          {{ form.get('state')?.value ? 'Disponible' : 'Ocupada' }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">
+    <mat-icon>close</mat-icon>
+    Cancelar
+  </button>
+  <button mat-raised-button color="primary" (click)="operate()" [disabled]="form.invalid">
+    <mat-icon>{{ isEdit ? 'save' : 'add' }}</mat-icon>
+    {{ isEdit ? 'Actualizar' : 'Guardar' }}
+  </button>
+</mat-dialog-actions>

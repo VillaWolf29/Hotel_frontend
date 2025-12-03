@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>
+  <mat-icon>{{ isEdit ? 'edit' : 'person_add' }}</mat-icon>
+  {{ isEdit ? 'Editar Empleado' : 'Nuevo Empleado' }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="firstName" placeholder="Ingrese el nombre">
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error *ngIf="form.get('firstName')?.invalid">
+          {{ getErrorMessage('firstName') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="lastName" placeholder="Ingrese el apellido">
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error *ngIf="form.get('lastName')?.invalid">
+          {{ getErrorMessage('lastName') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Puesto</mat-label>
+      <input matInput formControlName="post" placeholder="Ej: Recepcionista, Gerente, etc.">
+      <mat-icon matPrefix>work</mat-icon>
+      <mat-error *ngIf="form.get('post')?.invalid">
+        {{ getErrorMessage('post') }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" placeholder="+51 987 654 321">
+        <mat-icon matPrefix>phone</mat-icon>
+        <mat-error *ngIf="form.get('phone')?.invalid">
+          {{ getErrorMessage('phone') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com">
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-error *ngIf="form.get('email')?.invalid">
+          {{ getErrorMessage('email') }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">
+    <mat-icon>close</mat-icon>
+    Cancelar
+  </button>
+  <button mat-raised-button color="primary" (click)="operate()" [disabled]="form.invalid">
+    <mat-icon>{{ isEdit ? 'save' : 'add' }}</mat-icon>
+    {{ isEdit ? 'Actualizar' : 'Guardar' }}
+  </button>
+</mat-dialog-actions>

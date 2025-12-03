@@ -4,11 +4,11 @@ import { RegisterComponent } from './pages/register-component/register-component
 import { HomeComponent } from './pages/home/home-component';
 import { RoomsComponent } from './pages/room-component/room-component';
 import { BookingDialogComponent } from './pages/booking-dialog/booking-dialog-component';
-import { CustomersComponent } from './pages/customers.component';
-import { EmployeesComponent } from './pages/employees.component';
+import { CustomersComponent } from './pages/customer-component/customer-component';
+import { EmployeesComponent } from './pages/employee-component/employee-component';
 import { PaymentsComponent } from './pages/pay.component';
 import { BillsComponent } from './pages/bills.component';
-import { ServicesComponent } from './pages/services.component';
+import { ServicesComponent } from './pages/service-component/service-component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
