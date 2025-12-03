@@ -6,9 +6,17 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Nombre del Servicio</mat-label>
-      <input matInput formControlName="nameService" placeholder="Ej: Lavandería, Spa, Room Service">
-      <mat-icon matPrefix>label</mat-icon>
+      <mat-label>Tipo de Servicio</mat-label>
+      <mat-select formControlName="nameService">
+        <mat-option value="spa">Spa</mat-option>
+        <mat-option value="lavanderia">Lavandería</mat-option>
+        <mat-option value="restaurante">Restaurante</mat-option>
+        <mat-option value="gimnasio">Gimnasio</mat-option>
+        <mat-option value="bar">Bar</mat-option>
+        <mat-option value="piscina">Piscina</mat-option>
+        <mat-option value="estacionamiento">Estacionamiento</mat-option>
+      </mat-select>
+      <mat-icon matPrefix>room_service</mat-icon>
       <mat-error *ngIf="form.get('nameService')?.invalid">
         {{ getErrorMessage('nameService') }}
       </mat-error>

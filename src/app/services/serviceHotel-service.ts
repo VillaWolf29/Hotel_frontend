@@ -13,7 +13,7 @@ export class ServiceHotelService extends GenericService<ServiceHotel> {
   private messageChange: Subject<string> = new Subject<string>();
 
   constructor() {
-    super(inject(HttpClient), `${environment.HOST}/servicehotels`);
+    super(inject(HttpClient), `${environment.HOST}/serviceshotel`);
   }
 
   setServiceHotelChange(data: ServiceHotel[]) {

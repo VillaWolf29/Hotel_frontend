@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { ServiceHotel } from '../../../model/serviceHotel';
 import { ServiceHotelService } from '../../../services/serviceHotel-service';
 
@@ -19,7 +20,8 @@ import { ServiceHotelService } from '../../../services/serviceHotel-service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   templateUrl: './service-edit-component.html',
   styleUrls: ['./service-edit-component.css']
@@ -27,6 +29,8 @@ import { ServiceHotelService } from '../../../services/serviceHotel-service';
 export class ServiceEditComponent implements OnInit {
   form: FormGroup;
   isEdit: boolean = false;
+  
+  serviceTypes: string[] = ['spa', 'lavanderia', 'restaurante', 'gimnasio', 'bar', 'piscina', 'estacionamiento'];
 
   constructor(
     private fb: FormBuilder,
